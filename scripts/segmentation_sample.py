@@ -55,7 +55,7 @@ def main():
         tran_list = [transforms.Resize((args.image_size,args.image_size)), transforms.ToTensor(),]
         transform_train = transforms.Compose(tran_list)
 
-        ds = ISIC2018Dataset(args, args.data_dir, transform_train)
+        ds = ISIC2018Dataset(args, args.data_dir, transform_train, mode = 'Test')
         # tr_dataset = th.utils.data.Subset(ds, range(0       , 1815  +250  ))
         # vl_dataset = th.utils.data.Subset(dataset, range(1815    , 1815+259    ))
         ds = th.utils.data.Subset(ds, range(1815+259, 1815+259+520))
