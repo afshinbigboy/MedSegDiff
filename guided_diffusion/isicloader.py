@@ -1,6 +1,7 @@
 import os
 import sys
 import pickle
+import glob
 import cv2
 from skimage import io
 import matplotlib.pyplot as plt
@@ -71,8 +72,8 @@ class ISIC2018Dataset(Dataset):
         self.target_fex = "png"
         self.input_fex = "jpg"
         self.data_dir = data_path if data_path else "/path/to/datasets/ISIC2018"
-        self.imgs_dir = os.path.join(self.data_path, "ISIC2018_Task1-2_Training_Input")
-        self.msks_dir = os.path.join(self.data_path, "ISIC2018_Task1_Training_GroundTruth")
+        self.imgs_dir = os.path.join(self.data_dir, "ISIC2018_Task1-2_Training_Input")
+        self.msks_dir = os.path.join(self.data_dir, "ISIC2018_Task1_Training_GroundTruth")
         
         # input parameters
         self.img_dirs = glob.glob(f"{self.imgs_dir}/*.{self.input_fex}")
