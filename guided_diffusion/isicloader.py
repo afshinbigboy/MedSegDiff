@@ -71,6 +71,7 @@ class ISIC2018Dataset(Dataset):
         self.target_postfix = "_segmentation"
         self.target_fex = "png"
         self.input_fex = "jpg"
+        self.mode = mode
         self.data_dir = data_path if data_path else "/path/to/datasets/ISIC2018"
         self.imgs_dir = os.path.join(self.data_dir, "ISIC2018_Task1-2_Training_Input")
         self.msks_dir = os.path.join(self.data_dir, "ISIC2018_Task1_Training_GroundTruth")
