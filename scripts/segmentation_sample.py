@@ -15,7 +15,7 @@ from PIL import Image
 import torch.distributed as dist
 from guided_diffusion import dist_util, logger
 from guided_diffusion.bratsloader import BRATSDataset
-from guided_diffusion.isicloader import ISICDataset
+from guided_diffusion.isicloader import ISICDataset, ISIC2018Dataset
 import torchvision.utils as vutils
 from guided_diffusion.utils import staple
 from guided_diffusion.script_util import (
@@ -50,6 +50,16 @@ def main():
         transform_test = transforms.Compose(tran_list)
 
         ds = ISICDataset(args, args.data_dir, transform_test, mode = 'Test')
+        args.in_ch = 4
+    if args.data_name == 'ISIC2018':
+        tran_list = [transforms.Resize((args.image_size,args.image_size)), transforms.ToTensor(),]
+        transform_train = transforms.Compose(tran_list)
+
+        ds = ISIC2018Dataset(args, args.data_dir, transform_train)
+        # tr_dataset = th.utils.data.Subset(ds, range(0       , 1815  +250  ))
+        # vl_dataset = th.utils.data.Subset(dataset, range(1815    , 1815+259    ))
+        ds = th.utils.data.Subset(ds, range(1815+259, 1815+259+520))
+    
         args.in_ch = 4
     elif args.data_name == 'BRATS':
         tran_list = [transforms.Resize((args.image_size,args.image_size)),]

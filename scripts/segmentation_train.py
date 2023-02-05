@@ -41,7 +41,6 @@ def main():
         ds = th.utils.data.Subset(ds, range(0       , 1815  +250  ))
         # vl_dataset = th.utils.data.Subset(dataset, range(1815    , 1815+259    ))
         # te_dataset = th.utils.data.Subset(dataset, range(1815+259, 1815+259+520))
-    
         args.in_ch = 4
     elif args.data_name == 'BRATS':
         tran_list = [transforms.Resize((args.image_size,args.image_size)),]
