@@ -54,3 +54,59 @@ class ISICDataset(Dataset):
             return (img, mask)
         else:
             return (img, mask, name)
+        
+        
+        
+        
+        
+        
+        
+        
+class ISIC2018Dataset(Dataset):
+    def __init__(self, args, data_path , transform = None, mode = 'Training', plane = False):
+
+        # pre-set variables
+        self.data_prefix = "ISIC_"
+        self.target_postfix = "_segmentation"
+        self.target_fex = "png"
+        self.input_fex = "jpg"
+        self.data_dir = data_path if data_path else "/path/to/datasets/ISIC2018"
+        self.imgs_dir = os.path.join(self.data_path, "ISIC2018_Task1-2_Training_Input")
+        self.msks_dir = os.path.join(self.data_path, "ISIC2018_Task1_Training_GroundTruth")
+        
+        # input parameters
+        self.img_dirs = glob.glob(f"{self.imgs_dir}/*.{self.input_fex}")
+        self.data_ids = [d.split(self.data_prefix)[1].split(f".{self.input_fex}")[0] for d in self.img_dirs]
+        self.transform = transform
+        
+    def get_img_by_id(self, id):
+        img_path = os.path.join(self.imgs_dir, f"{self.data_prefix}{id}.{self.input_fex}")
+        # img = read_image(img_dir, ImageReadMode.RGB)
+        img = Image.open(img_path).convert('RGB')
+        return img
+    
+    def get_msk_by_id(self, id):
+        mask_path = os.path.join(self.msks_dir, f"{self.data_prefix}{id}{self.target_postfix}.{self.target_fex}")
+        # msk = read_image(msk_dir, ImageReadMode.GRAY)
+        mask = Image.open(mask_path).convert('L')
+        return mask
+
+    def __len__(self):
+        return len(self.data_ids)
+
+    def __getitem__(self, idx):
+        data_id = self.data_ids[idx]
+        img = self.get_img_by_id(data_id)
+        mask = self.get_msk_by_id(data_id)
+        
+        if self.transform:
+            state = torch.get_rng_state()
+            img = self.transform(img)
+            torch.set_rng_state(state)
+            mask = self.transform(mask)
+
+        if self.mode == 'Training':
+            return (img, mask)
+        else:
+            name = data_id
+            return (img, mask, name)
