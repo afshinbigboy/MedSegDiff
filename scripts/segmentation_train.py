@@ -51,6 +51,7 @@ def main():
         batch_size=args.batch_size,
         shuffle=True)
     if args.data_name == 'ISIC2018':
+        print(len(datal))
         datal = th.utils.data.Subset(datal, range(0       , 1815  +250  ))
         # vl_dataset = th.utils.data.Subset(dataset, range(1815    , 1815+259    ))
         # te_dataset = th.utils.data.Subset(dataset, range(1815+259, 1815+259+520))
