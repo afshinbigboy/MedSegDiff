@@ -70,7 +70,7 @@ class DatasetFSS(Dataset):
         #     torch.set_rng_state(state)
         #     mask = self.transform(mask)
 
-        if self.mode == 'Training':
+        if self.split == 'trn':
             return (img, mask)
         else:
             return (img, mask, name)
