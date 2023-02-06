@@ -61,9 +61,9 @@ class DatasetFSS(Dataset):
         
         # return batch
         
-        img = support_imgs
-        mask = support_masks
-        name = support_names
+        img = support_imgs[0]
+        mask = support_masks[0]
+        name = support_names[0]
         # if self.transform:
         #     state = torch.get_rng_state()
         #     img = self.transform(img)
